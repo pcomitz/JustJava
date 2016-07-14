@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Just Java</string>
+    <string name="quantityLabelString">QUANTITY</string>
+    <string name="quantityNumberString">0</string>
+    <string name="priceLabelString">PRICE</string>
+    <string name="priceNumberString">$0</string>
+    <string name="orderLabelString">ORDER</string>
+    <string name="plusSignString">+</string>
+    <string name="minusSignString">-</string>
+
+
+
+    <!-- 3A -->
+    <string name="orderSummaryLabelString">ORDER SUMMARY</string>
+
+    <!--3B -->
+    <string name ="whippedCreamString">Whipped Cream</string>
+
+</resources>
