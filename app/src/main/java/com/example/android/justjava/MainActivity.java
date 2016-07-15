@@ -2,7 +2,9 @@ package com.example.android.justjava;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 //add unambiguous imports on the fly
@@ -34,27 +36,39 @@ public class MainActivity extends AppCompatActivity {
         displayQuantity(quantity);
         displayPrice(quantity*5);
         */
-        String summary = createOrderSummary();
+
+        // 3B
+        CheckBox orderCheckBox = (CheckBox)findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = orderCheckBox.isChecked();
+
+        CheckBox chocolateCheckBox = (CheckBox)findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+        Log.v("MainActivity", "CheckBox checked:"+hasChocolate);
+
+        //3A
+        String summary = createOrderSummary(hasWhippedCream, hasChocolate);
         TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
         orderSummaryTextView.setText(summary);
-
     }
 
     /**
      * 3A: add createOrderSummary
      *  called from submitOrder
      *  take in price
+     *  @param addWhippedCream indicated whethere or not used has checked Whipped Cream checkbox
      *  @return message
      */
-    public String createOrderSummary() {
+    public String createOrderSummary(boolean addWhippedCream, boolean addChocolate) {
         String name = "Keith Richards";
         int totalPrice = 0;
         int quantity =Integer.parseInt(quantityTV.getText().toString());
         totalPrice = quantity*PRICE_PER_CUP;
 
         return  name + "\n"
+                +"Add whipped cream? "+addWhippedCream + "\n"
+                +"Add chocolate? "+addChocolate + "\n"
                 +"Quantity: "+Integer.toString(quantity)+ "\n"
-                +"Price: $"+Integer.toString(totalPrice) + "\n"
+                +"Total: $"+Integer.toString(totalPrice) + "\n"
                 +"Thank You\n";
     }
 
@@ -85,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void increment(View view) {
         quantity++;
-        quantityTV.setText(new Integer(quantity).toString());
+        quantityTV.setText(Integer.toString(quantity));
     }
 
     public void decrement(View view) {
         quantity--;
-        quantityTV.setText(new Integer(quantity).toString());
+        quantityTV.setText(Integer.toString(quantity));
     }
 
     /**
@@ -112,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private int calculatePrice(int quantity) {
-        int price = quantity * 5;
-        return price;
+        return quantity*5;
     }
 
 
