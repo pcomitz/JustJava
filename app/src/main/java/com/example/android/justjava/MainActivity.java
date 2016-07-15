@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     public void decrement(View view) {
         quantity--;
         quantityTV.setText(Integer.toString(quantity));
+
     }
 
     /**
