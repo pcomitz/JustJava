@@ -1,11 +1,15 @@
 package com.example.android.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //add unambiguous imports on the fly
 import java.text.NumberFormat;
@@ -16,7 +20,7 @@ import java.text.NumberFormat;
 public class MainActivity extends AppCompatActivity {
 
     private TextView quantityTV;
-    private int quantity = 0;
+    private int quantity = 1;
     private final int PRICE_PER_CUP = 5;
 
 
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method is called when the order button is clicked.
+     * * Select
+     * * Ctrl /
+     * * Comments out all selected lines
      */
     public void submitOrder(View view) {
         /* WAS
@@ -38,17 +45,38 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // 3B
+        //whipped cream
         CheckBox orderCheckBox = (CheckBox)findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCream = orderCheckBox.isChecked();
 
+        //chocolcate
         CheckBox chocolateCheckBox = (CheckBox)findViewById(R.id.chocolate_checkbox);
         boolean hasChocolate = chocolateCheckBox.isChecked();
         Log.v("MainActivity", "CheckBox checked:"+hasChocolate);
 
+        //get name
+        EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
+        String name = nameEditText.getText().toString();
+
         //3A
-        String summary = createOrderSummary(hasWhippedCream, hasChocolate);
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(summary);
+        String summary = createOrderSummary(hasWhippedCream, hasChocolate,name);
+        //3B - since emailing order, no need to display summary in app anymore
+        //TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        //orderSummaryTextView.setText(summary);
+
+
+        //3B - email the order
+        String[] addresses = {"pcomitz@yahoo.com", "mike@sloan.com"};
+        //open the email app with an intent
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for "+name);
+        intent.putExtra(Intent.EXTRA_TEXT,summary);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
     /**
@@ -58,11 +86,29 @@ public class MainActivity extends AppCompatActivity {
      *  @param addWhippedCream indicated whethere or not used has checked Whipped Cream checkbox
      *  @return message
      */
-    public String createOrderSummary(boolean addWhippedCream, boolean addChocolate) {
-        String name = "Keith Richards";
+    public String createOrderSummary(boolean addWhippedCream, boolean addChocolate,
+                                     String name) {
         int totalPrice = 0;
         int quantity =Integer.parseInt(quantityTV.getText().toString());
+
+        if(quantity < 0) {
+            Toast.makeText(this, "You must order at least 1 cup of coffee", Toast.LENGTH_LONG).show();
+            return("Please try again");
+        } else if(quantity > 100) {
+            Toast.makeText(this, "You cannot order more than 100 cups", Toast.LENGTH_LONG) .show();
+            return("Please try again");
+        }
+
+        //TODO - add calculate price method
         totalPrice = quantity*PRICE_PER_CUP;
+
+        //add $1 per cup if whipped cream
+        if(addWhippedCream)
+            totalPrice += quantity*1;
+
+        //add $2 per cup if chocolate
+        if(addChocolate)
+            totalPrice += quantity*2;
 
         return  name + "\n"
                 +"Add whipped cream? "+addWhippedCream + "\n"
@@ -98,14 +144,24 @@ public class MainActivity extends AppCompatActivity {
      * must be public !
      */
     public void increment(View view) {
+        //don't allow quantity to be incremented > 100
+        if(quantity == 100) {
+            Toast.makeText(this, "You cannot order more than 100 cups", Toast.LENGTH_LONG) .show();
+            return;
+        }
         quantity++;
         quantityTV.setText(Integer.toString(quantity));
     }
 
     public void decrement(View view) {
+        //don't allow quantity to be decremented to 0
+        if(quantity == 1) {
+            Toast.makeText(this, "You must order at least 1 cup of coffee", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         quantity--;
         quantityTV.setText(Integer.toString(quantity));
-
     }
 
     /**
@@ -125,11 +181,8 @@ public class MainActivity extends AppCompatActivity {
      * Lesson 3A add calculatePrice method
      *  @return the price
      */
-
     private int calculatePrice(int quantity) {
         return quantity*5;
     }
 
-
-
-}
+} //~

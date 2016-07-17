@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Just Java</string>
-    <string name="quantityLabelString">QUANTITY</string>
-    <string name="quantityNumberString">0</string>
-    <string name="priceLabelString">PRICE</string>
+    <string name="quantityLabelString">Quantity</string>
+    <string name="quantityNumberString">1</string>
+    <string name="priceLabelString">Price</string>
     <string name="priceNumberString">$0</string>
-    <string name="orderLabelString">ORDER</string>
+    <string name="orderLabelString">Order</string>
     <string name="plusSignString">+</string>
     <string name="minusSignString">-</string>
 
@@ -16,6 +16,7 @@
     <!--3B -->
     <string name ="whippedCreamString">Whipped Cream</string>
     <string name ="chocolateString">Chocolate</string>
+    <string name="toppingsString">Toppings</string>
 
 
     <!-- to test scroll view -->

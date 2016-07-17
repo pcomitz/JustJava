@@ -15,11 +15,17 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint = "Name"
+            android:layout_marginBottom="24dp"/>
+
            <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="TOPPINGS"
-               android:layout_marginBottom="24dp"/>
+               android:text="@string/toppingsString"
+               style="@style/HeaderTextStyle" />
 
            <CheckBox
                android:id="@+id/whipped_cream_checkbox"
@@ -36,14 +42,12 @@
             android:layout_height="wrap_content"
             android:text="@string/chocolateString"
             android:textSize="16sp"
-            android:paddingLeft="24dp"
-            android:layout_marginBottom="24dp" />
+            android:paddingLeft="24dp" />
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            style="@style/HeaderTextStyle"
             android:text="@string/quantityLabelString" />
 
         <LinearLayout
@@ -80,6 +84,7 @@
 
     </LinearLayout>
 
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +99,8 @@
             android:textColor="@android:color/black"
             android:text="@string/priceNumberString"
             />
+
+            -->
 
         <Button
             android:layout_width="wrap_content"
